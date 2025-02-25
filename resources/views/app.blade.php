@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html
     lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    data-theme="cupcake"
     class="dark overflow-hidden h-screen"
 >
     <head>
