@@ -7,6 +7,8 @@ import {
 } from "@heroicons/react/24/solid";
 import { useState } from "react";
 import NewMessageInput from "./NewMessageInput";
+import EmojiPicker from "emoji-picker-react";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 const MessageInput = ({ conversation }) => {
     const [newMessage, setNewMessage] = useState("");
@@ -14,6 +16,9 @@ const MessageInput = ({ conversation }) => {
     const [messageSending, setMessageSending] = useState(false);
 
     const onSendClick = () => {
+        if (messageSending) {
+            return;
+        }
         if (newMessage.trim() === "") {
             setInputErrorMessage(
                 "Please provide a message or upload attachments."
@@ -48,6 +53,23 @@ const MessageInput = ({ conversation }) => {
                 setMessageSending(true);
             });
     };
+
+    const onLikeClick = () => {
+        if (messageSending) {
+            return;
+        }
+        const data = {
+            message: "👍",
+        };
+
+        if (conversation.is_user) {
+            data["receiver_id"] = conversation.id;
+        } else if (conversation.is_group) {
+            data["group_id"] = conversation.id;
+        }
+
+        axios.post(route("message.store"), data);
+    };
     return (
         <>
             <div className="flex flex-wrap items-start border-t border-slate-700 py-3">
@@ -79,11 +101,9 @@ const MessageInput = ({ conversation }) => {
                         />
                         <button
                             onClick={onSendClick}
+                            disabled={messageSending}
                             className="btn btn-info roounded-1-none"
                         >
-                            {messageSending && (
-                                <span className="loading loading-spinner loading-xs"></span>
-                            )}
                             <PaperAirplaneIcon className="w-6" />
                             <span className="hidden sm:inline">Send</span>
                         </button>
@@ -95,10 +115,23 @@ const MessageInput = ({ conversation }) => {
                     )}
                 </div>
                 <div className="order-3 xs:order-3 p-2 flex">
-                    <button className="p-1 text-gray-400 hover:text-gray-300">
-                        <FaceSmileIcon className="w-6 h-6" />
-                    </button>
-                    <button className="p-1 text-gray-400 hover:text-gray-300">
+                    <Popover className="relative">
+                        <PopoverButton className="p-1 text-gray-400 hover:text-gray-300">
+                            <FaceSmileIcon className="w-6 h-6" />
+                        </PopoverButton>
+                        <PopoverPanel className="absolute z-10 right-0 bottom-full">
+                            <EmojiPicker
+                                theme="dark"
+                                onEmojiClick={(ev) =>
+                                    setNewMessage(newMessage + ev.emoji)
+                                }
+                            ></EmojiPicker>
+                        </PopoverPanel>
+                    </Popover>
+                    <button
+                        onClick={onLikeClick}
+                        className="p-1 text-gray-400 hover:text-gray-300"
+                    >
                         <HandThumbUpIcon className="w-6 h-6" />
                     </button>
                 </div>

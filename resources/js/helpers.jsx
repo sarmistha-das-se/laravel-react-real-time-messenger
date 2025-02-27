@@ -32,7 +32,7 @@ export const formatMessageDateshort = (date) => {
     if (isToday(inputDate)) {
         return inputDate.toLocaleTimeString([], {
             hour: "2-digit",
-            minute: "2-digit,",
+            minute: "2-digit",
         });
     } else if (isYesterday(inputDate)) {
         return "Yesterday";
