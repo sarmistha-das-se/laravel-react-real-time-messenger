@@ -29,17 +29,15 @@ const NewMessageInput = ({ value, onChange, onSend }) => {
     }, [value]);
 
     return (
-        <>
-            <textarea
-                ref={input}
-                value={value}
-                rows="1"
-                placeholder="Type a message"
-                onKeyDown={onInputKeyDown}
-                onChange={(ev) => onChangeEvent(ev)}
-                className="input input-bordered w-full rounded-r-none resize-none overflow-y-auto max-h-40"
-            ></textarea>
-        </>
+        <textarea
+            ref={input}
+            value={value}
+            rows="1"
+            placeholder="Type a message"
+            onKeyDown={onInputKeyDown}
+            onChange={(ev) => onChangeEvent(ev)}
+            className="input input-bordered w-full rounded-r-none resize-none overflow-y-auto max-h-40"
+        ></textarea>
     );
 };
 
