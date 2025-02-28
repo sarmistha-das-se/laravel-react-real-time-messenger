@@ -22,10 +22,10 @@ export default function Toast({}) {
             {toasts &&
                 toasts.map((toast, index) => (
                     <div
-                        key={index}
+                        key={toast.uuid}
                         className="alert alert-success py-3 px-4 text-gray-100 rounded-md"
                     >
-                        <span>New Message</span>
+                        <span>{toast.message}</span>
                     </div>
                 ))}
         </div>

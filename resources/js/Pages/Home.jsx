@@ -37,6 +37,29 @@ function Home({ selectedConversation = null, messages = null }) {
         }
     };
 
+    // const messageDeleted = ({ message }) => {
+    //     if (
+    //         selectedConversation &&
+    //         selectedConversation.is_group &&
+    //         selectedConversation.id == message.group.id
+    //     ) {
+    //         setLocalMessages((prevMessages) => {
+    //             return prevMessages.filter((m) => m.id !== message.id);
+    //         });
+    //     }
+
+    //     if (
+    //         selectedConversation &&
+    //         selectedConversation.is_user &&
+    //         (selectedConversation.id == message.sender_id ||
+    //             selectedConversation.id == message.receiver_id)
+    //     ) {
+    //         setLocalMessages((prevMessages) => {
+    //             return prevMessages.filter((m) => m.id !== message.id);
+    //         });
+    //     }
+    // };
+
     const loadMoreMessages = useCallback(() => {
         if (noMoreMessages) {
             return;
@@ -83,12 +106,14 @@ function Home({ selectedConversation = null, messages = null }) {
         }, 10);
 
         const offCreated = on("message.created", messageCreated);
+        //const offDeleted = on("message.deleted", messageDeleted);
 
         setScrollFromBottom(0);
         setNoMoreMessage(false);
 
         return () => {
             offCreated();
+            // offDeleted();
         };
     }, [selectedConversation]);
 
@@ -112,7 +137,7 @@ function Home({ selectedConversation = null, messages = null }) {
                 entries.forEach(
                     (entry) => entry.isIntersecting && loadMoreMessages()
                 ),
-            { rootMatgin: "0px 0px 250px 0px" }
+            { rootMargin: "0px 0px 250px 0px" }
         );
         if (loadMoreIntersect.current) {
             setTimeout(() => {

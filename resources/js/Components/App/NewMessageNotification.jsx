@@ -7,7 +7,6 @@ import { Link } from "@inertiajs/react";
 export default function NewMessageNotification({}) {
     const [toasts, setToasts] = useState([]);
     const { on } = useEventBus();
-    console.log(toasts);
 
     useEffect(() => {
         on("newMessageNotification", ({ message, user, group_id }) => {
