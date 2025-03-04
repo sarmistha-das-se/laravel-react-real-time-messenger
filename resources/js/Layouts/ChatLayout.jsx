@@ -95,7 +95,7 @@ const ChatLayout = ({ children }) => {
     useEffect(() => {
         setSortedConversations(
             localConversations.sort((a, b) => {
-                if (a.blocked_at && ba.blocked_at) {
+                if (a.blocked_at && b.blocked_at) {
                     return a.blocked_at > b.blocked_at ? 1 : -1;
                 } else if (a.blocked_at) {
                     return 1;
